@@ -8,15 +8,19 @@ import { v4 as uuid } from 'uuid';
 export class LessonService {
   constructor(
     @InjectRepository(Lesson) private lessonRepository: Repository<Lesson>,
-  ){}
+  ) {}
 
-  async createLesson(name, startDate, endDate): Promise<Lesson>{
+  async createLesson(name, startDate, endDate): Promise<Lesson> {
     const lesson = this.lessonRepository.create({
       id: uuid(),
       name,
       startDate,
-      endDate
+      endDate,
     });
     return await this.lessonRepository.save(lesson);
+  }
+
+  async getLesson(id): Promise<Lesson> {
+    return this.lessonRepository.findOne({ id });
   }
 }
