@@ -20,4 +20,12 @@ export class StudentService {
     });
     return await this.studentRepository.save(student);
   }
+
+  async getStudents(): Promise<Student[]>{
+    return this.studentRepository.find();
+  }
+
+  async getStudentById(id: string): Promise<Student> {
+    return this.studentRepository.findOne({ id });
+  }
 }
