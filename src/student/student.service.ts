@@ -11,7 +11,9 @@ export class StudentService {
     @InjectRepository(Student) private studentRepository: Repository<Student>,
   ) {}
 
-  async createStudent(createStudentInput: CreateStudentInput): Promise<Student> {
+  async createStudent(
+    createStudentInput: CreateStudentInput,
+  ): Promise<Student> {
     const { firstName, lastName } = createStudentInput;
     const student = this.studentRepository.create({
       id: uuid(),
@@ -21,11 +23,21 @@ export class StudentService {
     return await this.studentRepository.save(student);
   }
 
-  async getStudents(): Promise<Student[]>{
+  async getStudents(): Promise<Student[]> {
     return this.studentRepository.find();
   }
 
   async getStudentById(id: string): Promise<Student> {
     return this.studentRepository.findOne({ id });
+  }
+
+  async getManyStudents(studentIds: string[]): Promise<Student[]> {
+    return this.studentRepository.find({
+      where: {
+        id: {
+          $in: studentIds,
+        },
+      },
+    });
   }
 }
